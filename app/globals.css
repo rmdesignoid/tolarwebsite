@@ -46,8 +46,9 @@ h2 { margin: 0; font-size: clamp(40px, 4vw, 48px); line-height: 1; letter-spacin
 .experience-copy > strong { margin-top: 28px; font-size: 14px; }
 .client-logos { display: flex; height: 88px; align-items: center; gap: 8px; margin-top: 8px; }
 .client-logos img { width: 88px; height: 88px; object-fit: contain; }
-.experience-visual { height: 480px; position: relative; padding-left: 40px; }
-.experience-visual > img { width: 480px; height: 480px; object-fit: cover; object-position: bottom; border-radius: 16px; }
+.experience-visual { width: 520px; position: relative; padding-left: 40px; }
+.experience-image-frame { position: relative; width: 480px; aspect-ratio: 1; overflow: hidden; border-radius: 16px; background: var(--ink); }
+.experience-image-frame img { position: absolute; top: -10.625%; left: 0; width: 100%; height: 138.542%; max-width: none; object-fit: fill; }
 .visual-rail { position: absolute; left: 0; top: 50%; transform: translateY(-50%); width: 80px; padding: 32px 16px; border-radius: 16px; background: rgba(17,25,44,.84); backdrop-filter: blur(10px); display: grid; gap: 16px; }
 .visual-rail span { width: 48px; height: 48px; display: grid; place-items: center; color: #fff; font-size: 19px; }
 .visual-rail .rail-active { border-radius: 50%; background: #0077b5; font-weight: 700; }
@@ -135,7 +136,7 @@ footer { min-height: 280px; display: flex; flex-direction: column; justify-conte
   .hero-copy { max-width: 94%; } .hero-ctas { flex-direction: column; } .hero-ctas .button { width: 100%; }
   .spin-off { margin-top: 38px; align-items: flex-start; }
   .experience { padding: 64px 0; border-radius: 28px 28px 0 0; }.experience-grid { gap: 40px; }
-  h2 { font-size: 36px; letter-spacing: -1px; }.experience-visual { height: 390px; padding-left: 24px; }.experience-visual > img { width: 100%; height: 390px; }.visual-rail { width: 64px; padding: 20px 8px; }.visual-rail span { width: 48px; height: 44px; }
+  h2 { font-size: 36px; letter-spacing: -1px; }.experience-visual { width: 100%; padding-left: 24px; }.experience-image-frame { width: 100%; }.visual-rail { width: 64px; padding: 20px 8px; }.visual-rail span { width: 48px; height: 44px; }
   .strategy-list article { padding: 16px 18px; }.platform-section { padding-top: 68px; }.capability-grid { grid-template-columns: 1fr; }.capability-card { min-height: 170px; }
   .dashboard-card { min-height: 420px; padding: 18px; }.dashboard-chart { height: 220px; margin-top: 32px; padding: 14px; gap: 7px; }
   .modules-wrap { margin-top: 68px; padding: 68px 0; }.modules-grid { gap: 40px; }

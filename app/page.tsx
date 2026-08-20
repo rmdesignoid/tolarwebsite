@@ -48,7 +48,7 @@ export default function Home() {
             <strong>Presente em operações que não podem parar</strong>
             <div className="client-logos"><img src="/assets/client-bancard.png" alt="Bancard" /><img src="/assets/client-atm24.png" alt="ATM 24h" /><img src="/assets/client-bepsa.png" alt="Bepsa" /></div>
           </div>
-          <div className="experience-visual"><img src="/assets/terminal-user.png" alt="Pessoa utilizando um terminal de autoatendimento" /><div className="visual-rail" aria-hidden="true"><span>↔</span><span>⌘</span><span className="rail-active">T</span><span>▣</span><span>▥</span></div></div>
+          <div className="experience-visual"><div className="experience-image-frame"><img src="/assets/terminal-user.png" alt="Pessoa utilizando um terminal de autoatendimento" /></div><div className="visual-rail" aria-hidden="true"><span>↔</span><span>⌘</span><span className="rail-active">T</span><span>▣</span><span>▥</span></div></div>
         </div>
       </section>
 
