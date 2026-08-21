@@ -56,7 +56,10 @@ export function StrategyTabs() {
         role="tabpanel"
         aria-labelledby={`strategy-tab-${selectedIndex}`}
       >
-        <img key={selectedTab.title} src={selectedTab.image} alt={selectedTab.title} />
+        <picture key={selectedTab.title}>
+          <source srcSet={selectedTab.image.replace(".png", ".webp")} type="image/webp" />
+          <img src={selectedTab.image} width={1202} height={1298} alt={selectedTab.title} loading="lazy" decoding="async" />
+        </picture>
       </div>
 
       <div className="strategy-copy" data-reveal="from-right">

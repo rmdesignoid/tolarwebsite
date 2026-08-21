@@ -104,7 +104,10 @@ export default function Home() {
           </nav>
           <div className="header-actions"><LanguageToggle /><a className="button button-sm" href="#contato">Fale com um especialista <Arrow /></a></div>
         </header></div>
-        <div className="hero-image" aria-hidden="true" /><div className="hero-shade" aria-hidden="true" />
+        <picture className="hero-image" aria-hidden="true">
+          <source srcSet="/assets/hero-terminals.webp" type="image/webp" />
+          <img src="/assets/hero-terminals.png" width={1024} height={576} alt="" fetchPriority="high" decoding="async" />
+        </picture><div className="hero-shade" aria-hidden="true" />
         <div className="container hero-content">
           <p className="eyebrow" data-reveal>Gestão inteligente de terminais</p>
           <h1 data-reveal>Controle toda a sua rede de autoatendimento em uma <span>única plataforma</span></h1>
@@ -122,7 +125,7 @@ export default function Home() {
             <p>A Tolar conecta dados de terminais, transações e dispositivos em um único ambiente para que sua equipe tenha mais controle sobre a operação e mais segurança para evoluir.</p>
             <div className="certifications"><strong>Certificações</strong><p className="certification-lead">Garantia de segurança e confiança nas transações digitais</p><div><ShieldCheck size={22} strokeWidth={2.2} aria-hidden="true" /><span>EMVCo Kernel</span></div><div><ShieldCheck size={22} strokeWidth={2.2} aria-hidden="true" /><span>PCI SFF</span></div></div>
           </div>
-          <div className="experience-visual" data-reveal="from-right"><div className="experience-image-frame"><img src="/assets/terminal-user.png" alt="Pessoa utilizando um terminal de autoatendimento" /></div><div className="visual-rail" aria-hidden="true"><span>↔</span><span>⌘</span><span className="rail-active">T</span><span>▣</span><span>▥</span></div></div>
+          <div className="experience-visual" data-reveal="from-right"><div className="experience-image-frame"><picture><source srcSet="/assets/terminal-user.webp" type="image/webp" /><img src="/assets/terminal-user.png" width={1560} height={1440} alt="Pessoa utilizando um terminal de autoatendimento" loading="lazy" decoding="async" /></picture></div><div className="visual-rail" aria-hidden="true"><span>↔</span><span>⌘</span><span className="rail-active">T</span><span>▣</span><span>▥</span></div></div>
         </div>
       </section>
 
@@ -130,7 +133,7 @@ export default function Home() {
 
       <section className="platform-section" id="plataforma">
         <div className="container"><div className="section-heading" data-reveal><p className="eyebrow dark">Mais controle para a sua operação</p><h2>Uma plataforma para acompanhar a complexidade da <span className="gradient-text">sua operação</span></h2></div>
-          <div className="capability-layout"><div className="capability-grid">{capabilities.map(({ icon: Icon, title, copy }) => <article className="capability-card" data-reveal key={title}><span className="capability-icon"><Icon size={24} strokeWidth={1.7} aria-hidden="true" /></span><h3>{title}</h3><p>{copy}</p></article>)}</div><div className="dashboard-card platform-visual" data-reveal="from-right" aria-label="Pronto para evoluir sua operação"><img src="/assets/platform-card.png" alt="Terminal Tolar" /><div className="platform-visual-overlay"><Rocket className="platform-rocket" size={32} strokeWidth={1.5} aria-hidden="true" /><h3>Pronto para evoluir sua operação?</h3><p>Descubra como a Tolar pode conectar seus terminais, simplificar a gestão e preparar sua rede para crescer com mais controle.</p><a className="button" href="#contato">Fale com um especialista <Arrow /></a></div></div></div>
+          <div className="capability-layout"><div className="capability-grid">{capabilities.map(({ icon: Icon, title, copy }) => <article className="capability-card" data-reveal key={title}><span className="capability-icon"><Icon size={24} strokeWidth={1.7} aria-hidden="true" /></span><h3>{title}</h3><p>{copy}</p></article>)}</div><div className="dashboard-card platform-visual" data-reveal="from-right" aria-label="Pronto para evoluir sua operação"><picture><source srcSet="/assets/platform-card.webp" type="image/webp" /><img src="/assets/platform-card.png" width={928} height={1248} alt="Terminal Tolar" loading="lazy" decoding="async" /></picture><div className="platform-visual-overlay"><Rocket className="platform-rocket" size={32} strokeWidth={1.5} aria-hidden="true" /><h3>Pronto para evoluir sua operação?</h3><p>Descubra como a Tolar pode conectar seus terminais, simplificar a gestão e preparar sua rede para crescer com mais controle.</p><a className="button" href="#contato">Fale com um especialista <Arrow /></a></div></div></div>
         </div>
 
         <div className="modules-wrap" id="modulos"><div className="container modules-grid"><div data-reveal><p className="eyebrow">Um ecossistema conectado</p><h2>Combine os módulos que sua operação precisa.</h2><p>Evolua sua infraestrutura com flexibilidade. Combine módulos conforme os desafios da sua rede e amplie as possibilidades de autoatendimento ao longo do tempo.</p><a className="button light-button" href="#contato">Conheça a plataforma <Arrow /></a></div><div className="module-list">{modules.map(({ name, description, icon: Icon }) => <div data-reveal="from-right" key={name}><span className="module-icon"><Icon size={20} strokeWidth={1.8} aria-hidden="true" /></span><div className="module-copy"><strong>{name}</strong><small>{description}</small></div></div>)}</div></div></div>
