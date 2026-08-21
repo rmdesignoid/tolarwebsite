@@ -31,26 +31,111 @@ const scaleStats = [
   { icon: Clock3, value: "+10.000", label: "Terminais usando a solução" },
 ];
 
+type ContactField = "nome" | "email" | "empresa" | "telefone";
+type ContactErrors = Partial<Record<ContactField, string>>;
+const MAX_INVALID_ATTEMPTS = 3;
+const FORM_LOCK_DURATION = 5 * 60 * 1000;
+
+function validateContactForm(data: FormData): ContactErrors {
+  const name = String(data.get("nome") ?? "").trim();
+  const email = String(data.get("email") ?? "").trim();
+  const company = String(data.get("empresa") ?? "").trim();
+  const phone = String(data.get("telefone") ?? "").replace(/\D/g, "");
+  const errors: ContactErrors = {};
+
+  if (name.length < 2) errors.nome = "Informe seu nome completo.";
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) errors.email = "Informe um e-mail corporativo válido.";
+  if (company.length < 2) errors.empresa = "Informe o nome da empresa.";
+  if (phone.length < 10 || phone.length > 13) errors.telefone = "Informe um telefone válido com DDD.";
+
+  return errors;
+}
+
 export default function Home() {
   const [scrolled, setScrolled] = useState(false);
+  const [formErrors, setFormErrors] = useState<ContactErrors>({});
   const [formSecurityMessage, setFormSecurityMessage] = useState("");
-  const formOpenedAt = useRef(Date.now());
+  const [formSuccessMessage, setFormSuccessMessage] = useState("");
+  const [invalidAttempts, setInvalidAttempts] = useState(0);
+  const [blockedUntil, setBlockedUntil] = useState(0);
+  const [isBlocked, setIsBlocked] = useState(false);
+  const formOpenedAt = useRef<number | null>(null);
+
+  useEffect(() => {
+    formOpenedAt.current = Date.now();
+  }, []);
+
+  function registerInvalidAttempt(message: string) {
+    const attempts = invalidAttempts + 1;
+    setInvalidAttempts(attempts);
+
+    if (attempts >= MAX_INVALID_ATTEMPTS) {
+      const lockExpiry = Date.now() + FORM_LOCK_DURATION;
+      setBlockedUntil(lockExpiry);
+      setIsBlocked(true);
+      sessionStorage.setItem("tolar-contact-form-lock", String(lockExpiry));
+      setFormSecurityMessage("Por segurança, novas tentativas foram bloqueadas por 5 minutos.");
+      return;
+    }
+
+    setFormSecurityMessage(`${message} Restam ${MAX_INVALID_ATTEMPTS - attempts} tentativa(s) antes de um bloqueio temporário.`);
+  }
+
+  function handleFieldBlur(event: React.FocusEvent<HTMLInputElement>) {
+    const field = event.currentTarget.name as ContactField;
+    const errors = validateContactForm(new FormData(event.currentTarget.form ?? undefined));
+    setFormErrors((current) => ({ ...current, [field]: errors[field] }));
+  }
 
   function handleContactSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const form = event.currentTarget;
+    if (isBlocked) {
+      setFormSecurityMessage("Por segurança, aguarde alguns minutos antes de tentar novamente.");
+      return;
+    }
+
     const formData = new FormData(form);
     const honeypotValue = String(formData.get("website") ?? "").trim();
-    const wasFilledTooQuickly = Date.now() - formOpenedAt.current < 2500;
+    const openedAt = formOpenedAt.current ?? Date.now();
+    const wasFilledTooQuickly = Date.now() - openedAt < 2500;
+    const errors = validateContactForm(formData);
+
+    setFormSuccessMessage("");
+    setFormErrors(errors);
+
+    if (Object.keys(errors).length > 0) {
+      registerInvalidAttempt("Revise os campos destacados.");
+      return;
+    }
 
     if (honeypotValue || wasFilledTooQuickly) {
-      setFormSecurityMessage("Não foi possível validar o envio. Aguarde alguns instantes e tente novamente.");
+      registerInvalidAttempt("Não foi possível validar o envio.");
       return;
     }
 
     setFormSecurityMessage("");
-    form.reportValidity();
+    setInvalidAttempts(0);
+    sessionStorage.removeItem("tolar-contact-form-lock");
+    setFormSuccessMessage("Mensagem enviada com sucesso. Nossa equipe entrará em contato em breve.");
+    form.reset();
+    formOpenedAt.current = Date.now();
   }
+
+  useEffect(() => {
+    if (!blockedUntil) return;
+    const timer = window.setInterval(() => {
+      if (Date.now() < blockedUntil) return;
+      window.clearInterval(timer);
+      setBlockedUntil(0);
+      setIsBlocked(false);
+      setInvalidAttempts(0);
+      setFormSecurityMessage("");
+      sessionStorage.removeItem("tolar-contact-form-lock");
+    }, 1000);
+
+    return () => window.clearInterval(timer);
+  }, [blockedUntil]);
 
   useEffect(() => {
     const onScroll = () => {
@@ -104,7 +189,7 @@ export default function Home() {
           </nav>
           <div className="header-actions"><LanguageToggle /><a className="button button-sm" href="#contato">Fale com um especialista <Arrow /></a></div>
         </header></div>
-        <picture className="hero-image" aria-hidden="true">
+        <picture className="hero-image">
           <source srcSet="/assets/hero-terminals.webp" type="image/webp" />
           <img src="/assets/hero-terminals.png" width={1024} height={576} alt="" fetchPriority="high" decoding="async" />
         </picture><div className="hero-shade" aria-hidden="true" />
@@ -141,7 +226,7 @@ export default function Home() {
 
       <section className="scale-section"><div className="container"><div className="scale-heading" data-reveal><p className="eyebrow dark">Experiência comprovada em escala</p><h2>Experiência para operar em escala</h2></div><div className="stats-grid">{scaleStats.map(({ icon: Icon, value, label }) => <article data-reveal key={label}><Icon className="stats-icon" size={24} strokeWidth={1.8} aria-hidden="true" /><b>{value}</b><span>{label}</span></article>)}</div></div></section>
 
-      <section className="contact-section" id="contato"><div className="container contact-panel"><div className="contact-copy" data-reveal><span className="contact-symbol">T</span><h2>Entenda como a Tolar pode simplificar sua operação</h2><p>Fale com nosso time e descubra quais módulos fazem sentido para o cenário da sua empresa.</p><div className="contact-hst"><div className="hst-mark"><img src="/assets/hst-main.svg" alt="HST" /></div><span>Spin-off da HST Card Technology, com mais de 35 anos de experiência no ecossistema de autoatendimento</span></div></div><form className="contact-form" data-reveal="from-right" onSubmit={handleContactSubmit}><p>Preencha o formulário e nossa equipe entrará em contato para entender sua operação e apresentar a melhor configuração para o seu cenário.</p><label>Nome<input type="text" name="nome" placeholder="Seu nome" autoComplete="name" required minLength={2} /></label><label>E-mail corporativo<input type="email" name="email" placeholder="nome@empresa.com" autoComplete="email" required /></label><div className="form-row"><label>Empresa<input type="text" name="empresa" placeholder="Nome da empresa" autoComplete="organization" required minLength={2} /></label><label>Telefone<input type="tel" name="telefone" placeholder="(00) 00000-0000" autoComplete="tel" required pattern="[0-9()\s+-]{8,}" /></label></div><label className="form-honeypot" aria-hidden="true">Website<input type="text" name="website" tabIndex={-1} autoComplete="off" /></label><p className="form-protection" aria-live="polite">Formulário protegido contra envios automatizados.</p>{formSecurityMessage && <p className="form-security-message" role="alert">{formSecurityMessage}</p>}<button className="button" type="submit">Fale com um especialista <Arrow /></button></form></div></section>
+      <section className="contact-section" id="contato"><div className="container contact-panel"><div className="contact-copy" data-reveal><span className="contact-symbol">T</span><h2>Entenda como a Tolar pode simplificar sua operação</h2><p>Fale com nosso time e descubra quais módulos fazem sentido para o cenário da sua empresa.</p><div className="contact-hst"><div className="hst-mark"><img src="/assets/hst-main.svg" alt="HST" /></div><span>Spin-off da HST Card Technology, com mais de 35 anos de experiência no ecossistema de autoatendimento</span></div></div><form className="contact-form" data-reveal="from-right" onSubmit={handleContactSubmit} noValidate><p>Preencha o formulário e nossa equipe entrará em contato para entender sua operação e apresentar a melhor configuração para o seu cenário.</p><label className={formErrors.nome ? "has-error" : ""}>Nome<input type="text" name="nome" placeholder="Seu nome" autoComplete="name" aria-invalid={Boolean(formErrors.nome)} aria-describedby={formErrors.nome ? "nome-error" : undefined} onBlur={handleFieldBlur} />{formErrors.nome && <small id="nome-error" className="field-error">{formErrors.nome}</small>}</label><label className={formErrors.email ? "has-error" : ""}>E-mail corporativo<input type="email" name="email" placeholder="nome@empresa.com" autoComplete="email" aria-invalid={Boolean(formErrors.email)} aria-describedby={formErrors.email ? "email-error" : undefined} onBlur={handleFieldBlur} />{formErrors.email && <small id="email-error" className="field-error">{formErrors.email}</small>}</label><div className="form-row"><label className={formErrors.empresa ? "has-error" : ""}>Empresa<input type="text" name="empresa" placeholder="Nome da empresa" autoComplete="organization" aria-invalid={Boolean(formErrors.empresa)} aria-describedby={formErrors.empresa ? "empresa-error" : undefined} onBlur={handleFieldBlur} />{formErrors.empresa && <small id="empresa-error" className="field-error">{formErrors.empresa}</small>}</label><label className={formErrors.telefone ? "has-error" : ""}>Telefone<input type="tel" name="telefone" placeholder="(00) 00000-0000" autoComplete="tel" aria-invalid={Boolean(formErrors.telefone)} aria-describedby={formErrors.telefone ? "telefone-error" : undefined} onBlur={handleFieldBlur} />{formErrors.telefone && <small id="telefone-error" className="field-error">{formErrors.telefone}</small>}</label></div><label className="form-honeypot" aria-hidden="true">Website<input type="text" name="website" tabIndex={-1} autoComplete="off" /></label><p className="form-protection" aria-live="polite">Formulário protegido contra envios automatizados.</p>{formSecurityMessage && <p className="form-security-message" role="alert">{formSecurityMessage}</p>}{formSuccessMessage && <p className="form-success-message" role="status">{formSuccessMessage}</p>}<button className="button" type="submit" disabled={isBlocked}>{isBlocked ? "Tente novamente em alguns minutos" : <>Fale com um especialista <Arrow /></>}</button></form></div></section>
 
       <footer><div className="container footer-grid"><div className="footer-intro"><div className="footer-brand"><img src="/assets/tolar-logo.svg" alt="Tolar" /></div><p>Gestão inteligente para operações de autoatendimento mais seguras, disponíveis e escaláveis.</p><a className="footer-social" href="https://www.linkedin.com/company/tolar-gestao-inteligente/" target="_blank" rel="noreferrer"><span className="linkedin-mark" aria-hidden="true">in</span> LinkedIn</a></div><div className="footer-links"><div><strong>Explorar</strong><a href="#inicio">Início</a><a href="#beneficios">Benefícios</a><a href="#plataforma">Plataforma</a><a href="#modulos">Módulos</a></div><div><strong>Contato</strong><a href="#contato">Fale com um especialista</a><a href="mailto:contato@tolar.com.br">contato@tolar.com.br</a></div></div><a className="footer-top" href="#inicio" aria-label="Voltar ao topo"><ArrowUp size={18} aria-hidden="true" /> Topo</a></div><div className="container footer-bottom"><p>© 2026 Tolar. Todos os direitos reservados.</p><span>HST Card Technology</span></div></footer>
     </main>
