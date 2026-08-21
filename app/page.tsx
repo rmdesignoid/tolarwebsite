@@ -17,7 +17,7 @@ const capabilities = [
 ];
 
 const modules = [
-  { name: "EJM", description: "Monitoramento de eventos e transações", icon: Eye },
+  { name: "EJM", description: "Jornal Eletrônico de transações e eventos do terminal", icon: Eye },
   { name: "ETMS", description: "Monitoramento operacional e disponibilidade dos terminais", icon: Activity },
   { name: "ItransManager", description: "Gerenciamento e roteamento de transações", icon: CircleAlert },
   { name: "RKL", description: "Regras e lógica para operações", icon: ChartSpline },
