@@ -27,7 +27,7 @@ const modules = [
 
 const scaleStats = [
   { icon: Users, value: "+20", label: "Clientes utilizando nossos serviços" },
-  { icon: Globe2, value: "+19", label: "Países em 3 continentes" },
+  { icon: Globe2, value: "+5", label: "Países em 3 continentes" },
   { icon: Clock3, value: "+35", label: "Anos de experiência em pagamentos" },
   { icon: Landmark, value: "10", label: "Principais bancos da América Latina" },
 ];
