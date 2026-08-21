@@ -51,14 +51,15 @@ export function StrategyTabs() {
     <div className="container strategy-grid">
       <div
         className="strategy-art"
+        data-reveal
         id="strategy-image-panel"
         role="tabpanel"
         aria-labelledby={`strategy-tab-${selectedIndex}`}
       >
-        <img src={selectedTab.image} alt={selectedTab.title} />
+        <img key={selectedTab.title} src={selectedTab.image} alt={selectedTab.title} />
       </div>
 
-      <div className="strategy-copy">
+      <div className="strategy-copy" data-reveal="from-right">
         <p className="eyebrow">Do terminal à estratégia</p>
         <h2>Mais controle sobre a operação. Mais velocidade para evoluir.</h2>
         <div className="strategy-list" role="tablist" aria-label="Benefícios estratégicos" aria-orientation="vertical">
