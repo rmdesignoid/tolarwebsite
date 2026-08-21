@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { StrategyTabs } from "./components/StrategyTabs";
 import { LanguageToggle } from "./components/LanguageToggle";
 import { Activity, ArrowUp, ChartSpline, CircleAlert, Clock3, Eye, Globe2, Megaphone, MonitorDown, Rocket, ScanEye, ServerCog, ShieldCheck, Store, TrendingUp, Users } from "lucide-react";
@@ -33,6 +33,24 @@ const scaleStats = [
 
 export default function Home() {
   const [scrolled, setScrolled] = useState(false);
+  const [formSecurityMessage, setFormSecurityMessage] = useState("");
+  const formOpenedAt = useRef(Date.now());
+
+  function handleContactSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    const form = event.currentTarget;
+    const formData = new FormData(form);
+    const honeypotValue = String(formData.get("website") ?? "").trim();
+    const wasFilledTooQuickly = Date.now() - formOpenedAt.current < 2500;
+
+    if (honeypotValue || wasFilledTooQuickly) {
+      setFormSecurityMessage("Não foi possível validar o envio. Aguarde alguns instantes e tente novamente.");
+      return;
+    }
+
+    setFormSecurityMessage("");
+    form.reportValidity();
+  }
 
   useEffect(() => {
     const onScroll = () => {
@@ -120,7 +138,7 @@ export default function Home() {
 
       <section className="scale-section"><div className="container"><div className="scale-heading" data-reveal><p className="eyebrow dark">Experiência comprovada em escala</p><h2>Experiência para operar em escala</h2></div><div className="stats-grid">{scaleStats.map(({ icon: Icon, value, label }) => <article data-reveal key={label}><Icon className="stats-icon" size={24} strokeWidth={1.8} aria-hidden="true" /><b>{value}</b><span>{label}</span></article>)}</div></div></section>
 
-      <section className="contact-section" id="contato"><div className="container contact-panel"><div className="contact-copy" data-reveal><span className="contact-symbol">T</span><h2>Entenda como a Tolar pode simplificar sua operação</h2><p>Fale com nosso time e descubra quais módulos fazem sentido para o cenário da sua empresa.</p><div className="contact-hst"><div className="hst-mark"><img src="/assets/hst-main.svg" alt="HST" /></div><span>Spin-off da HST Card Technology, com mais de 35 anos de experiência no ecossistema de autoatendimento</span></div></div><form className="contact-form" data-reveal="from-right" onSubmit={(event) => { event.preventDefault(); event.currentTarget.reportValidity(); }}><p>Preencha o formulário e nossa equipe entrará em contato para entender sua operação e apresentar a melhor configuração para o seu cenário.</p><label>Nome<input type="text" name="nome" placeholder="Seu nome" autoComplete="name" required minLength={2} /></label><label>E-mail corporativo<input type="email" name="email" placeholder="nome@empresa.com" autoComplete="email" required /></label><div className="form-row"><label>Empresa<input type="text" name="empresa" placeholder="Nome da empresa" autoComplete="organization" required minLength={2} /></label><label>Telefone<input type="tel" name="telefone" placeholder="(00) 00000-0000" autoComplete="tel" required pattern="[0-9()\s+-]{8,}" /></label></div><button className="button" type="submit">Fale com um especialista <Arrow /></button></form></div></section>
+      <section className="contact-section" id="contato"><div className="container contact-panel"><div className="contact-copy" data-reveal><span className="contact-symbol">T</span><h2>Entenda como a Tolar pode simplificar sua operação</h2><p>Fale com nosso time e descubra quais módulos fazem sentido para o cenário da sua empresa.</p><div className="contact-hst"><div className="hst-mark"><img src="/assets/hst-main.svg" alt="HST" /></div><span>Spin-off da HST Card Technology, com mais de 35 anos de experiência no ecossistema de autoatendimento</span></div></div><form className="contact-form" data-reveal="from-right" onSubmit={handleContactSubmit}><p>Preencha o formulário e nossa equipe entrará em contato para entender sua operação e apresentar a melhor configuração para o seu cenário.</p><label>Nome<input type="text" name="nome" placeholder="Seu nome" autoComplete="name" required minLength={2} /></label><label>E-mail corporativo<input type="email" name="email" placeholder="nome@empresa.com" autoComplete="email" required /></label><div className="form-row"><label>Empresa<input type="text" name="empresa" placeholder="Nome da empresa" autoComplete="organization" required minLength={2} /></label><label>Telefone<input type="tel" name="telefone" placeholder="(00) 00000-0000" autoComplete="tel" required pattern="[0-9()\s+-]{8,}" /></label></div><label className="form-honeypot" aria-hidden="true">Website<input type="text" name="website" tabIndex={-1} autoComplete="off" /></label><p className="form-protection" aria-live="polite">Formulário protegido contra envios automatizados.</p>{formSecurityMessage && <p className="form-security-message" role="alert">{formSecurityMessage}</p>}<button className="button" type="submit">Fale com um especialista <Arrow /></button></form></div></section>
 
       <footer><div className="container footer-grid"><div className="footer-intro"><div className="footer-brand"><img src="/assets/tolar-logo.svg" alt="Tolar" /></div><p>Gestão inteligente para operações de autoatendimento mais seguras, disponíveis e escaláveis.</p><a className="footer-social" href="https://www.linkedin.com/company/tolar-gestao-inteligente/" target="_blank" rel="noreferrer"><span className="linkedin-mark" aria-hidden="true">in</span> LinkedIn</a></div><div className="footer-links"><div><strong>Explorar</strong><a href="#inicio">Início</a><a href="#beneficios">Benefícios</a><a href="#plataforma">Plataforma</a><a href="#modulos">Módulos</a></div><div><strong>Contato</strong><a href="#contato">Fale com um especialista</a><a href="mailto:contato@tolar.com.br">contato@tolar.com.br</a></div></div><a className="footer-top" href="#inicio" aria-label="Voltar ao topo"><ArrowUp size={18} aria-hidden="true" /> Topo</a></div><div className="container footer-bottom"><p>© 2026 Tolar. Todos os direitos reservados.</p><span>HST Card Technology</span></div></footer>
     </main>
