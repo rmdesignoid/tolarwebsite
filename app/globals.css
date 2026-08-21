@@ -201,7 +201,7 @@ h2 { margin: 0; font-size: clamp(var(--text-4xl), 4vw, var(--text-5xl)); line-he
 .stats-icon { position: static; margin-bottom: 24px; color: var(--blue); }
 .stats-grid article:hover { border-color: #8fc5dd; transform: translateY(-2px); }
 .stats-grid b { display: block; color: var(--blue); font-size: clamp(56px, 5vw, 64px); line-height: .95; letter-spacing: -1.5px; }.stats-grid span { display: block; width: 160px; min-height: 40px; margin-top: 4px; color: #344054; font-size: var(--text-sm); line-height: 20px; }
-.contact-section { position: relative; isolation: isolate; padding: 8px 0 104px; background: transparent; }
+.contact-section { position: relative; isolation: isolate; padding: 8px 0 104px; background: #fff; }
 .contact-section::before { content: ''; position: absolute; z-index: 0; width: 980px; height: 720px; left: 68%; top: -250px; transform: translateX(-50%) rotate(6deg); border-radius: 50%; background: radial-gradient(ellipse at 48% 20%, rgba(70,183,232,.2), transparent 46%), radial-gradient(ellipse at 72% 42%, rgba(0,89,139,.13), transparent 56%), radial-gradient(ellipse at 34% 70%, rgba(180,216,237,.18), transparent 58%); filter: blur(38px); opacity: 0; pointer-events: none; }
 .contact-panel { position: relative; z-index: 1; min-height: 560px; padding: 64px; border-radius: 24px; color: #fff; background: var(--ink); display: grid; grid-template-columns: 432px 1px 1fr; gap: 76px; align-items: center; }
 .contact-panel::before { content: ''; grid-column: 2; grid-row: 1; width: 1px; height: 100%; background: rgba(255,255,255,.18); }
