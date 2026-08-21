@@ -197,10 +197,10 @@ h2 { margin: 0; font-size: clamp(var(--text-4xl), 4vw, var(--text-5xl)); line-he
 .scale-section::after { content: ''; position: absolute; z-index: -1; width: 760px; height: 360px; left: 70%; bottom: -170px; transform: translateX(-50%) rotate(-8deg); border-radius: 50%; background: radial-gradient(ellipse, rgba(70,183,232,.14), transparent 68%); filter: blur(12px); opacity: .75; }
 .scale-heading { text-align: center; }.scale-heading h2 { margin-top: 4px; }
 .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 48px; }
-.stats-grid article { min-height: 220px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 24px; padding: 24px; border: 1px solid #dfe6ed; border-radius: 16px; background: #fff; position: relative; overflow: hidden; text-align: center; box-shadow: 0 12px 32px rgba(70,183,232,.08); transition: border-color .2s, transform .2s, box-shadow .2s; }
-.stats-icon { position: static; color: var(--blue); }
+.stats-grid article { min-height: 220px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0; padding: 24px; border: 1px solid #dfe6ed; border-radius: 16px; background: #fff; position: relative; overflow: hidden; text-align: center; box-shadow: 0 12px 32px rgba(70,183,232,.08); transition: border-color .2s, transform .2s, box-shadow .2s; }
+.stats-icon { position: static; margin-bottom: 24px; color: var(--blue); }
 .stats-grid article:hover { border-color: #8fc5dd; transform: translateY(-2px); }
-.stats-grid b { display: block; color: var(--blue); font-size: var(--text-5xl); line-height: 1; }.stats-grid span { display: block; width: 160px; min-height: 40px; margin-top: 8px; color: #344054; font-size: var(--text-sm); line-height: 20px; }
+.stats-grid b { display: block; color: var(--blue); font-size: clamp(56px, 5vw, 64px); line-height: .95; letter-spacing: -1.5px; }.stats-grid span { display: block; width: 160px; min-height: 40px; margin-top: 4px; color: #344054; font-size: var(--text-sm); line-height: 20px; }
 .contact-section { position: relative; isolation: isolate; padding: 8px 0 104px; background: transparent; }
 .contact-section::before { content: ''; position: absolute; z-index: 0; width: 980px; height: 720px; left: 68%; top: -250px; transform: translateX(-50%) rotate(6deg); border-radius: 50%; background: radial-gradient(ellipse at 48% 20%, rgba(70,183,232,.2), transparent 46%), radial-gradient(ellipse at 72% 42%, rgba(0,89,139,.13), transparent 56%), radial-gradient(ellipse at 34% 70%, rgba(180,216,237,.18), transparent 58%); filter: blur(38px); opacity: 0; pointer-events: none; }
 .contact-panel { position: relative; z-index: 1; min-height: 560px; padding: 64px; border-radius: 24px; color: #fff; background: var(--ink); display: grid; grid-template-columns: 432px 1px 1fr; gap: 76px; align-items: center; }
@@ -270,7 +270,7 @@ footer { padding: 72px 0 28px; color: #fff; background: var(--navy-deep); }
   .strategy-tab { padding: 16px 18px; }.strategy-tab-heading strong { font-size: var(--text-base); line-height: 24px; }.platform-section { padding-top: 68px; }.capability-grid { grid-template-columns: 1fr; }.capability-card { min-height: 170px; }
   .dashboard-card { min-height: 420px; padding: 18px; }.platform-visual { min-height: 560px; padding: 0; }.platform-visual-overlay { inset: auto 20px 28px; }.platform-visual-overlay h3 { font-size: var(--text-lg); }.platform-visual-overlay p { font-size: var(--text-sm); }.dashboard-chart { height: 220px; margin-top: 32px; padding: 14px; gap: 7px; }
   .modules-wrap { margin-top: 68px; padding: 68px 0; }.modules-grid { gap: 40px; }
-  .stats-grid { grid-template-columns: 1fr; gap: 12px; }.stats-grid article { min-height: 190px; padding: 16px 20px; gap: 24px; }.stats-grid .stats-icon { position: static; transform: none; margin-bottom: 0; }.stats-grid span { margin-top: 0; }
+  .stats-grid { grid-template-columns: 1fr; gap: 12px; }.stats-grid article { min-height: 190px; padding: 16px 20px; }.stats-grid b { font-size: 56px; }.stats-grid .stats-icon { position: static; transform: none; margin-bottom: 20px; }.stats-grid span { margin-top: 4px; }
   .contact-panel { width: 100%; border-radius: 0; padding: 52px 24px; }.form-row { grid-template-columns: 1fr; gap: 0; }
   footer { padding: 56px 0 24px; }.footer-grid { grid-template-columns: 1fr; gap: 36px; }.footer-links { gap: 24px; }.footer-top { justify-self: start; }.footer-bottom { flex-direction: column; gap: 8px; margin-top: 44px; }
 }
