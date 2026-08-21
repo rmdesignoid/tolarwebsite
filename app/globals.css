@@ -109,9 +109,9 @@ h2 { margin: 0; font-size: clamp(var(--text-4xl), 4vw, var(--text-5xl)); line-he
 .certification-lead { margin: 4px 0 14px; color: #667085; font-size: var(--text-sm); line-height: 20px; }
 .client-logos { display: flex; height: 88px; align-items: center; gap: 8px; margin-top: 8px; }
 .client-logos img { width: 88px; height: 88px; object-fit: contain; }
-.certifications { display: grid; grid-template-columns: 1fr; width: min(100%, 360px); gap: 4px; margin-top: 28px; padding: 14px; border-radius: 14px; background: rgba(70,183,232,.08); }
+.certifications { display: grid; grid-template-columns: 1fr; width: min(100%, 430px); gap: 4px; margin-top: 28px; padding: 14px; border-radius: 14px; background: rgba(70,183,232,.08); }
 .certifications > strong { font-size: var(--text-sm); line-height: 20px; }
-.certifications > .certification-lead { margin: 0 0 4px; }
+.certifications > .certification-lead { margin: 0 0 4px; white-space: nowrap; }
 .certifications > div { display: flex; align-items: center; gap: 8px; min-height: 38px; padding: 6px 4px; color: var(--ink); font-size: var(--text-sm); font-weight: 600; }
 .certifications > div + div::before { display: none; }
 .certifications svg { flex: 0 0 auto; color: var(--blue-mid); }
@@ -251,6 +251,7 @@ footer { padding: 72px 0 28px; color: #fff; background: var(--navy-deep); }
   .hero-image { left: 8%; right: -100%; top: 100px; opacity: .32; }
   .hero-shade { background: linear-gradient(180deg, var(--ink) 0%, rgba(17,25,44,.9) 63%, rgba(17,25,44,.4) 100%); }
   .hero-content { padding-top: 44px; } .hero h1 { font-size: 40px; line-height: 1; letter-spacing: -1.3px; }
+  .certifications > .certification-lead { white-space: normal; }
   .hero-copy { max-width: 94%; } .hero-ctas { flex-direction: column; margin-top: 24px; } .hero-ctas .button { width: 100%; }
   .spin-off { margin-top: 32px; align-items: flex-start; }
   .experience { padding: 64px 0; border-radius: 28px 28px 0 0; }.experience-grid { gap: 40px; }
