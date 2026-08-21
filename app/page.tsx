@@ -21,7 +21,7 @@ const modules = [
   { name: "ETMS", description: "Monitoração em tempo real de dispositivos e comandos remotos ao terminal", icon: Activity },
   { name: "ItransManager", description: "Gerenciamento e roteamento de transações", icon: CircleAlert },
   { name: "RKL", description: "Regras e lógica para operações", icon: ChartSpline },
-  { name: "EMV Kernel", description: "Processamento seguro certificado EMVCo", icon: ShieldCheck },
+  { name: "EMV Kernel", description: "Captura e tratamento dos dados de cartões com chip certificado EMCo", icon: ShieldCheck },
   { name: "Mídia Manager", description: "Campanhas e comunicação nos terminais", icon: Megaphone },
 ];
 
