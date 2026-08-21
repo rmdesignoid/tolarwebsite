@@ -6,22 +6,22 @@ const strategyTabs = [
   {
     title: "Saiba o que acontece em cada terminal",
     copy: "Acompanhe eventos, transações e disponibilidade da rede em tempo real.",
-    image: "/assets/strategy-dashboard-v2.png",
+    image: "/assets/strategy-dashboard-highres.png",
   },
   {
     title: "Integre diferentes fabricantes",
     copy: "Gerencie equipamentos de diferentes fornecedores em uma única solução.",
-    image: "/assets/strategy-dashboard-v2.png",
+    image: "/assets/strategy-dashboard-highres.png",
   },
   {
     title: "Resolva mais problemas à distância",
     copy: "Identifique incidentes, acione respostas e reduza deslocamentos desnecessários.",
-    image: "/assets/strategy-dashboard-v2.png",
+    image: "/assets/strategy-dashboard-highres.png",
   },
   {
     title: "Transforme dados em decisões melhores",
     copy: "Tenha uma visão consolidada da operação para priorizar ações e reduzir custos.",
-    image: "/assets/strategy-dashboard-v2.png",
+    image: "/assets/strategy-dashboard-highres.png",
   },
 ] as const;
 
