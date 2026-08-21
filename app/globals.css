@@ -1,6 +1,8 @@
 @import "tailwindcss";
 
 :root {
+  --font-geist-sans: Arial, sans-serif;
+  --font-geist-mono: "SFMono-Regular", Consolas, monospace;
   --ink: #11192c; --navy-deep: #080f1d; --navy-dark: #071321;
   --blue: #00598b; --blue-mid: #1687c4; --blue-light: #46b7e8; --blue-soft: #d9effb;
   --pale: #dcf1fe; --line: #d9e1e8; --muted: #667085; --surface: #f7f9fa; --surface-soft: #f2f2f7;
@@ -43,9 +45,9 @@
   .strategy-art img { animation: none; }
 }
 * { box-sizing: border-box; }
-html { scroll-behavior: smooth; }
+html { overflow-x: clip; scroll-behavior: smooth; }
 section[id] { scroll-margin-top: 104px; }
-body { margin: 0; background: var(--surface); color: var(--ink); font-family: var(--font-geist-sans), Arial, sans-serif; font-size: var(--text-base); line-height: 24px; }
+body { max-width: 100%; margin: 0; overflow-x: hidden; background: var(--surface); color: var(--ink); font-family: var(--font-geist-sans), Arial, sans-serif; font-size: var(--text-base); line-height: 24px; }
 main { background: var(--surface-soft); }
 a { color: inherit; text-decoration: none; }
 img { display: block; max-width: 100%; }
@@ -53,7 +55,7 @@ img { display: block; max-width: 100%; }
 .hero { min-height: 820px; position: relative; overflow: hidden; background: var(--ink); color: #fff; }
 .header-slot { position: relative; z-index: 5; height: 96px; }
 .site-header { position: relative; z-index: 5; height: 96px; width: min(1200px, calc(100% - 48px)); margin: 0 auto; display: flex; align-items: center; gap: 40px; transition: background .25s ease, border-color .25s ease, box-shadow .25s ease, height .25s ease; }
-.hero.is-scrolled { overflow: visible; }
+.hero.is-scrolled { overflow: hidden; }
 .site-header.is-scrolled { position: fixed; top: 16px; left: 50%; transform: translateX(-50%); z-index: 20; height: 64px; width: min(1200px, calc(100% - 48px)); padding: 0 18px; overflow: hidden; border: 1px solid rgba(154,213,240,.28); border-radius: 999px; background: rgba(9, 17, 32, .84); backdrop-filter: blur(32px) saturate(160%) contrast(108%); -webkit-backdrop-filter: blur(32px) saturate(160%) contrast(108%); box-shadow: 0 14px 34px rgba(3,10,22,.38), inset 0 1px rgba(255,255,255,.06); }
 .site-header.is-scrolled::before { content: ''; position: absolute; inset: -36px; z-index: 0; background: radial-gradient(circle at 16% 45%, rgba(57,183,239,.36), transparent 26%), radial-gradient(circle at 72% 20%, rgba(103,122,201,.3), transparent 32%), linear-gradient(90deg, rgba(8,15,29,.46), rgba(24,34,59,.24)); filter: blur(20px); opacity: .84; pointer-events: none; }
 .site-header.is-scrolled > * { position: relative; z-index: 1; }

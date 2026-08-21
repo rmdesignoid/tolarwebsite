@@ -49,7 +49,7 @@ const pairs: Record<string, string> = {
   Nome: "Name", "E-mail corporativo": "Business email", Empresa: "Company", Telefone: "Phone", "Seu nome": "Your name", "nome@empresa.com": "name@company.com", "Nome da empresa": "Company name", "(00) 00000-0000": "(00) 00000-0000",
   "© 2026 Tolar. Todos os direitos reservados.": "© 2026 Tolar. All rights reserved.",
   "Gestão inteligente para operações de autoatendimento mais seguras, disponíveis e escaláveis.": "Intelligent management for safer, more available and scalable self-service operations.",
-  Explorar: "Explore", Início: "Home", "Fale com um especialista": "Talk to a specialist", "contato@tolar.com.br": "contato@tolar.com.br", Topo: "Top",
+  Explorar: "Explore", Início: "Home", "contato@tolar.com.br": "contato@tolar.com.br", Topo: "Top",
   "HST Card Technology": "HST Card Technology",
 };
 
