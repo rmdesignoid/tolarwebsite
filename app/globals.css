@@ -54,8 +54,8 @@ img { display: block; max-width: 100%; }
 .header-slot { position: relative; z-index: 5; height: 96px; }
 .site-header { position: relative; z-index: 5; height: 96px; width: min(1200px, calc(100% - 48px)); margin: 0 auto; display: flex; align-items: center; gap: 40px; transition: background .25s ease, border-color .25s ease, box-shadow .25s ease, height .25s ease; }
 .hero.is-scrolled { overflow: visible; }
-.site-header.is-scrolled { position: fixed; top: 16px; left: 50%; transform: translateX(-50%); z-index: 20; height: 64px; width: min(1200px, calc(100% - 48px)); padding: 0 18px; overflow: hidden; border: 1px solid rgba(154,213,240,.22); border-radius: 999px; background: rgba(9, 17, 32, .58); backdrop-filter: blur(32px) saturate(160%) contrast(108%); -webkit-backdrop-filter: blur(32px) saturate(160%) contrast(108%); box-shadow: 0 14px 34px rgba(3,10,22,.3); }
-.site-header.is-scrolled::before { content: ''; position: absolute; inset: 0; z-index: 0; background: linear-gradient(90deg, rgba(8,15,29,.18), rgba(17,25,44,.12)); pointer-events: none; }
+.site-header.is-scrolled { position: fixed; top: 16px; left: 50%; transform: translateX(-50%); z-index: 20; height: 64px; width: min(1200px, calc(100% - 48px)); padding: 0 18px; overflow: hidden; border: 1px solid rgba(154,213,240,.28); border-radius: 999px; background: rgba(9, 17, 32, .84); backdrop-filter: blur(32px) saturate(160%) contrast(108%); -webkit-backdrop-filter: blur(32px) saturate(160%) contrast(108%); box-shadow: 0 14px 34px rgba(3,10,22,.38), inset 0 1px rgba(255,255,255,.06); }
+.site-header.is-scrolled::before { content: ''; position: absolute; inset: -36px; z-index: 0; background: radial-gradient(circle at 16% 45%, rgba(57,183,239,.36), transparent 26%), radial-gradient(circle at 72% 20%, rgba(103,122,201,.3), transparent 32%), linear-gradient(90deg, rgba(8,15,29,.46), rgba(24,34,59,.24)); filter: blur(20px); opacity: .84; pointer-events: none; }
 .site-header.is-scrolled > * { position: relative; z-index: 1; }
 .brand { flex: 0 0 120px; width: 120px; }
 .brand img { width: 120px; height: 21px; }
