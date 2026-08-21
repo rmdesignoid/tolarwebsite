@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { StrategyTabs } from "./components/StrategyTabs";
 import { LanguageToggle } from "./components/LanguageToggle";
-import { Activity, ArrowUp, ChartSpline, CircleAlert, Clock3, Eye, Globe2, Landmark, Megaphone, MonitorDown, Rocket, ScanEye, ServerCog, ShieldCheck, Store, TrendingUp, Users } from "lucide-react";
+import { Activity, ArrowUp, ChartSpline, CircleAlert, Clock3, Eye, Globe2, Megaphone, MonitorDown, Rocket, ScanEye, ServerCog, ShieldCheck, Store, TrendingUp, Users } from "lucide-react";
 
 const Arrow = () => <span aria-hidden="true" className="arrow">›</span>;
 
@@ -29,7 +29,6 @@ const scaleStats = [
   { icon: Users, value: "+20", label: "Clientes utilizando nossos serviços" },
   { icon: Globe2, value: "+5", label: "Países na América Latina" },
   { icon: Clock3, value: "+10.000", label: "Terminais usando a solução" },
-  { icon: Landmark, value: "10", label: "Principais bancos da América Latina" },
 ];
 
 export default function Home() {
