@@ -7,21 +7,25 @@ const strategyTabs = [
     title: "Saiba o que acontece em cada terminal",
     copy: "Acompanhe eventos, transações e disponibilidade da rede em tempo real.",
     image: "/assets/strategy-tab-1.png",
+    webp: "/assets/strategy-tab-1.webp",
   },
   {
     title: "Integre diferentes fabricantes",
     copy: "Gerencie equipamentos de diferentes fornecedores em uma única solução.",
     image: "/assets/strategy-tab-2.png",
+    webp: "/assets/strategy-tab-2.webp",
   },
   {
     title: "Resolva mais problemas à distância",
     copy: "Identifique incidentes, acione respostas e reduza deslocamentos desnecessários.",
     image: "/assets/strategy-tab-3.png",
+    webp: null,
   },
   {
     title: "Transforme dados em decisões melhores",
     copy: "Tenha uma visão consolidada da operação para priorizar ações e reduzir custos.",
     image: "/assets/strategy-tab-4.png",
+    webp: "/assets/strategy-tab-4.webp",
   },
 ] as const;
 
@@ -57,7 +61,7 @@ export function StrategyTabs() {
         aria-labelledby={`strategy-tab-${selectedIndex}`}
       >
         <picture key={selectedTab.title}>
-          <source srcSet={selectedTab.image.replace(".png", ".webp")} type="image/webp" />
+          {selectedTab.webp && <source srcSet={selectedTab.webp} type="image/webp" />}
           <img src={selectedTab.image} width={1202} height={1298} alt={selectedTab.title} loading="lazy" decoding="async" />
         </picture>
       </div>

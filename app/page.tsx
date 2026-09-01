@@ -33,7 +33,7 @@ const scaleStats = [
 
 type ContactField = "nome" | "email" | "empresa" | "telefone";
 type ContactErrors = Partial<Record<ContactField, string>>;
-const MAX_INVALID_ATTEMPTS = 3;
+const MAX_INVALID_ATTEMPTS = 5;
 const FORM_LOCK_DURATION = 5 * 60 * 1000;
 
 function validateContactForm(data: FormData): ContactErrors {
@@ -65,7 +65,7 @@ export default function Home() {
     formOpenedAt.current = Date.now();
   }, []);
 
-  function registerInvalidAttempt(message: string) {
+  function registerInvalidAttempt() {
     const attempts = invalidAttempts + 1;
     setInvalidAttempts(attempts);
 
@@ -74,11 +74,11 @@ export default function Home() {
       setBlockedUntil(lockExpiry);
       setIsBlocked(true);
       sessionStorage.setItem("tolar-contact-form-lock", String(lockExpiry));
-      setFormSecurityMessage("Por segurança, novas tentativas foram bloqueadas por 5 minutos.");
+      setFormSecurityMessage("Tente mais tarde. Por segurança, o formulário ficará indisponível por alguns minutos.");
       return;
     }
 
-    setFormSecurityMessage(`${message} Restam ${MAX_INVALID_ATTEMPTS - attempts} tentativa(s) antes de um bloqueio temporário.`);
+    setFormSecurityMessage("");
   }
 
   function handleFieldBlur(event: React.FocusEvent<HTMLInputElement>) {
@@ -91,7 +91,7 @@ export default function Home() {
     event.preventDefault();
     const form = event.currentTarget;
     if (isBlocked) {
-      setFormSecurityMessage("Por segurança, aguarde alguns minutos antes de tentar novamente.");
+      setFormSecurityMessage("Tente mais tarde. O formulário ficará disponível novamente em alguns minutos.");
       return;
     }
 
@@ -105,12 +105,12 @@ export default function Home() {
     setFormErrors(errors);
 
     if (Object.keys(errors).length > 0) {
-      registerInvalidAttempt("Revise os campos destacados.");
+      registerInvalidAttempt();
       return;
     }
 
     if (honeypotValue || wasFilledTooQuickly) {
-      registerInvalidAttempt("Não foi possível validar o envio.");
+      registerInvalidAttempt();
       return;
     }
 
@@ -185,7 +185,7 @@ export default function Home() {
         <div className="header-slot"><header className={`site-header${scrolled ? " is-scrolled" : ""}`}>
           <a className="brand" href="#inicio" aria-label="Tolar — início"><img src="/assets/tolar-logo.svg" alt="Tolar" /></a>
           <nav className="desktop-nav" aria-label="Navegação principal">
-            <a className="active" href="#plataforma">Plataforma</a><a href="#beneficios">Benefícios</a><a href="#modulos">Módulos</a><a href="#contato">Contato</a>
+            <a className="active" href="#atmcentre">ATMCentre</a><a href="#plataforma">Plataforma</a><a href="#modulos">Módulos</a><a href="#contato">Contato</a>
           </nav>
           <div className="header-actions"><LanguageToggle /><a className="button button-sm" href="#contato">Fale com um especialista <Arrow /></a></div>
         </header></div>
@@ -197,17 +197,34 @@ export default function Home() {
           <p className="eyebrow" data-reveal>Gestão inteligente de terminais</p>
           <h1 data-reveal>Controle toda a sua rede de autoatendimento em uma <span>única plataforma</span></h1>
           <p className="hero-copy" data-reveal>Monitore terminais, gerencie transações e evolua sua operação com mais disponibilidade, segurança e independência tecnológica.</p>
-          <div className="hero-ctas" data-reveal><a className="button" href="#contato">Fale com um especialista <Arrow /></a><a className="button button-outline" href="#beneficios">Avalie sua operação <Arrow /></a></div>
-          <div className="spin-off" data-reveal><div className="hst-mark"><img src="/assets/hst-main.svg" alt="HST" /></div><p>A Tolar é um <strong>spin-off da HST Card Technology</strong>, empresa com ampla experiência em pagamentos, terminais e infraestrutura de autoatendimento.</p></div>
+          <div className="hero-ctas" data-reveal><a className="button" href="#contato">Fale com um especialista <Arrow /></a></div>
+          <div className="spin-off" data-reveal><div className="hst-mark"><img src="/assets/hst-main.svg" alt="HST" /></div><p>A Tolar é um <strong>spin-off da HST Card Technology</strong>, empresa com mais de 35 anos de experiência em pagamentos, terminais e infraestrutura de autoatendimento.</p></div>
+        </div>
+      </section>
+
+      <section className="atmcentre-section" id="atmcentre">
+        <div className="container atmcentre-grid">
+          <div className="atmcentre-copy" data-reveal>
+            <p className="eyebrow dark">ATMCENTRE</p>
+            <h2>Uma plataforma para toda a sua rede de autoatendimento.</h2>
+            <p>O ATMCentre conecta e supervisiona ATMs, cofres inteligentes e outros dispositivos de autoatendimento em um único ambiente. Uma base única para acompanhar sua rede com independência tecnológica.</p>
+            <a className="button" href="#contato">Conheça o ATMCentre <Arrow /></a>
+          </div>
+          <div className="atmcentre-image" data-reveal="from-right">
+            <picture>
+              <source srcSet="/assets/atmcentre-atm-cofre.webp" type="image/webp" />
+              <img src="/assets/atmcentre-atm-cofre.png" width={1286} height={1040} alt="ATM e cofre inteligente conectados pela solução Tolar" loading="lazy" decoding="async" />
+            </picture>
+          </div>
         </div>
       </section>
 
       <section className="experience" id="beneficios">
         <div className="container experience-grid">
           <div className="experience-copy" data-reveal>
-            <p className="eyebrow dark">Experiência que conecta tecnologia e operação</p>
-            <h2>Da operação diária às decisões estratégicas</h2>
-            <p>A Tolar conecta dados de terminais, transações e dispositivos em um único ambiente para que sua equipe tenha mais controle sobre a operação e mais segurança para evoluir.</p>
+            <p className="eyebrow dark">Do produto ao resultado</p>
+            <h2>Mais controle na operação. Mais confiança para decidir.</h2>
+            <p>Com o ATMCentre, dados de terminais, transações e dispositivos se transformam em uma visão acionável da operação. Sua equipe monitora a rede, responde com mais agilidade e toma decisões com mais segurança.</p>
             <div className="certifications"><strong>Certificações</strong><p className="certification-lead">Garantia de segurança e confiança nas transações digitais</p><div><ShieldCheck size={22} strokeWidth={2.2} aria-hidden="true" /><span>EMVCo Kernel</span></div><div><ShieldCheck size={22} strokeWidth={2.2} aria-hidden="true" /><span>PCI SFF</span></div></div>
           </div>
           <div className="experience-visual" data-reveal="from-right"><div className="experience-image-frame"><picture><source srcSet="/assets/terminal-user.webp" type="image/webp" /><img src="/assets/terminal-user.png" width={1560} height={1440} alt="Pessoa utilizando um terminal de autoatendimento" loading="lazy" decoding="async" /></picture></div><div className="visual-rail" aria-hidden="true"><span>↔</span><span>⌘</span><span className="rail-active">T</span><span>▣</span><span>▥</span></div></div>
@@ -226,9 +243,9 @@ export default function Home() {
 
       <section className="scale-section"><div className="container"><div className="scale-heading" data-reveal><p className="eyebrow dark">Experiência comprovada em escala</p><h2>Experiência para operar em escala</h2></div><div className="stats-grid">{scaleStats.map(({ icon: Icon, value, label }) => <article data-reveal key={label}><Icon className="stats-icon" size={24} strokeWidth={1.8} aria-hidden="true" /><b>{value}</b><span>{label}</span></article>)}</div></div></section>
 
-      <section className="contact-section" id="contato"><div className="container contact-panel"><div className="contact-copy" data-reveal><span className="contact-symbol">T</span><h2>Entenda como a Tolar pode simplificar sua operação</h2><p>Fale com nosso time e descubra quais módulos fazem sentido para o cenário da sua empresa.</p><div className="contact-hst"><div className="hst-mark"><img src="/assets/hst-main.svg" alt="HST" /></div><span>Spin-off da HST Card Technology, com mais de 35 anos de experiência no ecossistema de autoatendimento</span></div></div><form className="contact-form" data-reveal="from-right" onSubmit={handleContactSubmit} noValidate><p>Preencha o formulário e nossa equipe entrará em contato para entender sua operação e apresentar a melhor configuração para o seu cenário.</p><label className={formErrors.nome ? "has-error" : ""}>Nome<input type="text" name="nome" placeholder="Seu nome" autoComplete="name" aria-invalid={Boolean(formErrors.nome)} aria-describedby={formErrors.nome ? "nome-error" : undefined} onBlur={handleFieldBlur} />{formErrors.nome && <small id="nome-error" className="field-error">{formErrors.nome}</small>}</label><label className={formErrors.email ? "has-error" : ""}>E-mail corporativo<input type="email" name="email" placeholder="nome@empresa.com" autoComplete="email" aria-invalid={Boolean(formErrors.email)} aria-describedby={formErrors.email ? "email-error" : undefined} onBlur={handleFieldBlur} />{formErrors.email && <small id="email-error" className="field-error">{formErrors.email}</small>}</label><div className="form-row"><label className={formErrors.empresa ? "has-error" : ""}>Empresa<input type="text" name="empresa" placeholder="Nome da empresa" autoComplete="organization" aria-invalid={Boolean(formErrors.empresa)} aria-describedby={formErrors.empresa ? "empresa-error" : undefined} onBlur={handleFieldBlur} />{formErrors.empresa && <small id="empresa-error" className="field-error">{formErrors.empresa}</small>}</label><label className={formErrors.telefone ? "has-error" : ""}>Telefone<input type="tel" name="telefone" placeholder="(00) 00000-0000" autoComplete="tel" aria-invalid={Boolean(formErrors.telefone)} aria-describedby={formErrors.telefone ? "telefone-error" : undefined} onBlur={handleFieldBlur} />{formErrors.telefone && <small id="telefone-error" className="field-error">{formErrors.telefone}</small>}</label></div><label className="form-honeypot" aria-hidden="true">Website<input type="text" name="website" tabIndex={-1} autoComplete="off" /></label>{formSecurityMessage && <p className="form-security-message" role="alert">{formSecurityMessage}</p>}{formSuccessMessage && <p className="form-success-message" role="status">{formSuccessMessage}</p>}<button className="button" type="submit" disabled={isBlocked}>{isBlocked ? "Tente novamente em alguns minutos" : <>Fale com um especialista <Arrow /></>}</button></form></div></section>
+      <section className="contact-section" id="contato"><div className="container contact-panel"><div className="contact-copy" data-reveal><span className="contact-symbol">T</span><h2>Entenda como a Tolar pode simplificar sua operação</h2><p>Fale com nosso time e descubra quais módulos fazem sentido para o cenário da sua empresa.</p><div className="contact-hst"><div className="hst-mark"><img src="/assets/hst-main.svg" alt="HST" /></div><span>Spin-off da HST Card Technology, com mais de 35 anos de experiência no ecossistema de autoatendimento</span></div></div><form className="contact-form" data-reveal="from-right" onSubmit={handleContactSubmit} noValidate><p>Preencha o formulário e nossa equipe entrará em contato para entender sua operação e apresentar a melhor configuração para o seu cenário.</p><label className={formErrors.nome ? "has-error" : ""}>Nome<input type="text" name="nome" placeholder="Seu nome" autoComplete="name" aria-invalid={Boolean(formErrors.nome)} aria-describedby={formErrors.nome ? "nome-error" : undefined} onBlur={handleFieldBlur} />{formErrors.nome && <small id="nome-error" className="field-error">{formErrors.nome}</small>}</label><label className={formErrors.email ? "has-error" : ""}>E-mail corporativo<input type="email" name="email" placeholder="nome@empresa.com" autoComplete="email" aria-invalid={Boolean(formErrors.email)} aria-describedby={formErrors.email ? "email-error" : undefined} onBlur={handleFieldBlur} />{formErrors.email && <small id="email-error" className="field-error">{formErrors.email}</small>}</label><div className="form-row"><label className={formErrors.empresa ? "has-error" : ""}>Empresa<input type="text" name="empresa" placeholder="Nome da empresa" autoComplete="organization" aria-invalid={Boolean(formErrors.empresa)} aria-describedby={formErrors.empresa ? "empresa-error" : undefined} onBlur={handleFieldBlur} />{formErrors.empresa && <small id="empresa-error" className="field-error">{formErrors.empresa}</small>}</label><label className={formErrors.telefone ? "has-error" : ""}>Telefone<input type="tel" name="telefone" placeholder="(00) 00000-0000" autoComplete="tel" aria-invalid={Boolean(formErrors.telefone)} aria-describedby={formErrors.telefone ? "telefone-error" : undefined} onBlur={handleFieldBlur} />{formErrors.telefone && <small id="telefone-error" className="field-error">{formErrors.telefone}</small>}</label></div><label className="form-honeypot" aria-hidden="true">Website<input type="text" name="website" tabIndex={-1} autoComplete="off" /></label>{formSecurityMessage && <p className="form-security-message" role="alert">{formSecurityMessage}</p>}{formSuccessMessage && <p className="form-success-message" role="status">{formSuccessMessage}</p>}<button className="button" type="submit" disabled={isBlocked}>{isBlocked ? "Tente mais tarde" : <>Fale com um especialista <Arrow /></>}</button></form></div></section>
 
-      <footer><div className="container footer-grid"><div className="footer-intro"><div className="footer-brand"><img src="/assets/tolar-logo.svg" alt="Tolar" /></div><p>Gestão inteligente para operações de autoatendimento mais seguras, disponíveis e escaláveis.</p><a className="footer-social" href="https://www.linkedin.com/company/tolar-gestao-inteligente/" target="_blank" rel="noreferrer"><span className="linkedin-mark" aria-hidden="true">in</span> LinkedIn</a></div><div className="footer-links"><div><strong>Explorar</strong><a href="#inicio">Início</a><a href="#beneficios">Benefícios</a><a href="#plataforma">Plataforma</a><a href="#modulos">Módulos</a></div><div><strong>Contato</strong><a href="#contato">Fale com um especialista</a><a href="mailto:contato@tolar.com.br">contato@tolar.com.br</a></div></div><a className="footer-top" href="#inicio" aria-label="Voltar ao topo"><ArrowUp size={18} aria-hidden="true" /> Topo</a></div><div className="container footer-bottom"><p>© 2026 Tolar. Todos os direitos reservados.</p><span>HST Card Technology</span></div></footer>
+      <footer><div className="container footer-grid"><div className="footer-intro"><div className="footer-brand"><img src="/assets/tolar-logo.svg" alt="Tolar" /></div><p>Gestão inteligente para operações de autoatendimento mais seguras, disponíveis e escaláveis.</p><a className="footer-social" href="https://www.linkedin.com/company/tolar-sistemas" target="_blank" rel="noreferrer"><span className="linkedin-mark" aria-hidden="true">in</span> LinkedIn</a></div><div className="footer-links"><div><strong>Legal</strong><a href="/politica-de-privacidade">Política de privacidade</a><a href="/assets/relatorio-igualdade-2026.pdf" target="_blank" rel="noreferrer">Relatório de igualdade</a></div><div><strong>Contato</strong><a href="#contato">Fale com um especialista</a><a href="mailto:contato@tolar.com.br">contato@tolar.com.br</a></div></div><a className="footer-top" href="#inicio" aria-label="Voltar ao topo"><ArrowUp size={18} aria-hidden="true" /> Topo</a></div><div className="container footer-bottom"><p>© 2026 Tolar. Todos os direitos reservados.</p><span>HST Card Technology</span></div></footer>
     </main>
   );
 }

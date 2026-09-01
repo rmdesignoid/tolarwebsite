@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
+import { CookieConsent } from "./components/CookieConsent";
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "https://tolar.com.br"),
@@ -12,6 +13,9 @@ export const metadata: Metadata = {
   authors: [{ name: "Tolar" }],
   creator: "Tolar",
   publisher: "Tolar",
+  applicationName: "Tolar",
+  category: "technology",
+  formatDetection: { telephone: false },
   alternates: { canonical: "/" },
   robots: { index: true, follow: true },
   openGraph: {
@@ -48,7 +52,16 @@ export default function RootLayout({
   return (
     <html lang="pt-BR">
       <body>
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "Organization",
+          name: "Tolar",
+          url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://tolar.com.br",
+          logo: `${process.env.NEXT_PUBLIC_SITE_URL ?? "https://tolar.com.br"}/assets/tolar-logo.svg`,
+          sameAs: ["https://www.linkedin.com/company/tolar-sistemas"],
+        }) }} />
         {children}
+        <CookieConsent />
       </body>
     </html>
   );
