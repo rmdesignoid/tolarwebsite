@@ -68,7 +68,7 @@ export function StrategyTabs() {
 
       <div className="strategy-copy" data-reveal="from-right">
         <p className="eyebrow">Do terminal à estratégia</p>
-        <h2>Mais controle sobre a operação. Mais velocidade para evoluir.</h2>
+        <h2>Da resposta imediata à decisão estratégica.</h2>
         <div className="strategy-list" role="tablist" aria-label="Benefícios estratégicos" aria-orientation="vertical">
           {strategyTabs.map((tab, index) => {
             const isSelected = selectedIndex === index;
