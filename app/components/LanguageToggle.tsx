@@ -4,6 +4,7 @@ import { Check, ChevronDown } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 
 type Language = "pt" | "en" | "es";
+const LANGUAGE_STORAGE_KEY = "tolar-language";
 
 const englishPairs: Record<string, string> = {
   ATMCentre: "ATMCentre", Plataforma: "Platform", Benefícios: "Benefits", Módulos: "Modules", Contato: "Contact",
@@ -209,6 +210,15 @@ export function LanguageToggle() {
   const previousLanguage = useRef<Language>("pt");
 
   useEffect(() => {
+    try {
+      const savedLanguage = window.localStorage.getItem(LANGUAGE_STORAGE_KEY);
+      if (savedLanguage === "pt" || savedLanguage === "en" || savedLanguage === "es") setLanguage(savedLanguage);
+    } catch {
+      // The site remains available when browser storage is disabled.
+    }
+  }, []);
+
+  useEffect(() => {
     const observer = new MutationObserver(() => translateDocument("pt", language));
     observer.observe(document.body, { childList: true, subtree: true });
     translateDocument(previousLanguage.current, language);
@@ -232,6 +242,7 @@ export function LanguageToggle() {
   }, []);
 
   const setLang = (next: Language) => {
+    try { window.localStorage.setItem(LANGUAGE_STORAGE_KEY, next); } catch { /* storage may be blocked */ }
     setLanguage(next);
     setIsOpen(false);
   };

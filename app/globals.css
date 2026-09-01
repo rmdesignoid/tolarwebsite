@@ -37,8 +37,8 @@
 .modules-wrap { position: relative; }
 .modules-wrap::before { content: ""; position: absolute; top: 0; left: 50%; width: min(1184px, calc(100% - 64px)); height: 1px; transform: translateX(-50%); background: linear-gradient(90deg, transparent, rgba(115,199,237,.38), transparent); }
 
-.strategy-art img { animation: strategy-image-in 360ms cubic-bezier(.22, 1, .36, 1) both; }
-@keyframes strategy-image-in { from { opacity: 0; transform: scale(1.018); } to { opacity: 1; transform: scale(1); } }
+.strategy-art img { animation: strategy-image-in 420ms cubic-bezier(.22, 1, .36, 1) both; }
+@keyframes strategy-image-in { from { opacity: 0; transform: translate3d(0, 8px, 0); } to { opacity: 1; transform: translate3d(0, 0, 0); } }
 
 @media (prefers-reduced-motion: reduce) {
   .js-motion [data-reveal] { opacity: 1; transform: none; transition: none; }
@@ -148,7 +148,7 @@ h2 { margin: 0; font-size: clamp(var(--text-4xl), 4vw, var(--text-5xl)); line-he
 .strategy-copy .eyebrow { color: #b8e7fc; }
 .strategy-copy h2 { color: #fff; }
 .strategy-list { display: grid; gap: 8px; }
-.strategy-tab { position: relative; width: 100%; min-height: 84px; padding: 12px 20px; border: 1px solid transparent; border-radius: 14px; background: transparent; color: #fff; text-align: left; font: inherit; cursor: pointer; transition: border-color .2s, background .2s, box-shadow .2s; }
+.strategy-tab { position: relative; width: 100%; min-height: 84px; padding: 12px 20px; border: 1px solid transparent; border-radius: 14px; background: transparent; color: #fff; text-align: left; font: inherit; cursor: pointer; transition: border-color .24s ease, background .24s ease, color .24s ease, box-shadow .24s ease; }
 .strategy-tab::before { content: ''; position: absolute; left: -1px; top: 50%; width: 4px; height: 42px; border-radius: 0 4px 4px 0; background: rgba(202,239,255,.45); transform: translateY(-50%); transition: background .2s, height .2s; }
 .strategy-tab:hover { border-color: rgba(255,255,255,.3); background: rgba(255,255,255,.1); }
 .strategy-tab:hover::before { background: #b8e7fc; }
