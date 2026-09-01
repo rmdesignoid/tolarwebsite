@@ -194,19 +194,25 @@ export default function Home() {
         reveal(entry.target as HTMLElement);
         observer.unobserve(entry.target);
       }),
-      { rootMargin: "0px 0px -8%", threshold: 0.15 },
+      { rootMargin: "0px 0px -12%", threshold: 0.2 },
     );
 
     document.documentElement.classList.add("js-motion");
     elements.forEach((element) => observer.observe(element));
-    const initialReveal = window.requestAnimationFrame(() => {
-      elements
-        .filter((element) => element.getBoundingClientRect().top < window.innerHeight * 0.9)
-        .forEach(reveal);
+    let initialReveal = window.requestAnimationFrame(() => {
+      initialReveal = window.requestAnimationFrame(() => {
+        initialRevealDelay = window.setTimeout(() => {
+          elements
+            .filter((element) => element.getBoundingClientRect().top < window.innerHeight * 0.9)
+            .forEach(reveal);
+        }, 160);
+      });
     });
+    let initialRevealDelay = 0;
 
     return () => {
       window.cancelAnimationFrame(initialReveal);
+      window.clearTimeout(initialRevealDelay);
       observer.disconnect();
       document.documentElement.classList.remove("js-motion");
     };

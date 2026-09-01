@@ -15,7 +15,7 @@
 .js-motion [data-reveal] {
   opacity: 0;
   transform: translate3d(0, 20px, 0);
-  transition: opacity 520ms cubic-bezier(.22, 1, .36, 1), transform 520ms cubic-bezier(.22, 1, .36, 1);
+  transition: opacity 680ms cubic-bezier(.22, 1, .36, 1), transform 680ms cubic-bezier(.22, 1, .36, 1);
   transition-delay: var(--reveal-delay, 0ms);
   will-change: opacity, transform;
 }
@@ -27,6 +27,8 @@
 .hero-content > [data-reveal]:nth-child(3) { --reveal-delay: 160ms; }
 .hero-content > [data-reveal]:nth-child(4) { --reveal-delay: 220ms; }
 .hero-content > [data-reveal]:nth-child(5) { --reveal-delay: 280ms; }
+.atmcentre-copy, .experience-copy { --reveal-delay: 80ms; }
+.atmcentre-image, .experience-visual { --reveal-delay: 180ms; }
 .capability-card:nth-child(2), .module-list > div:nth-child(2), .stats-grid article:nth-child(2) { --reveal-delay: 60ms; }
 .capability-card:nth-child(3), .module-list > div:nth-child(3), .stats-grid article:nth-child(3) { --reveal-delay: 120ms; }
 .capability-card:nth-child(4), .module-list > div:nth-child(4), .stats-grid article:nth-child(4) { --reveal-delay: 180ms; }
