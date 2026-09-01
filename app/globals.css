@@ -128,7 +128,8 @@ h2 { margin: 0; font-size: clamp(var(--text-4xl), 4vw, var(--text-5xl)); line-he
 .certification-lead { margin: 4px 0 14px; color: #667085; font-size: var(--text-sm); line-height: 20px; }
 .client-logos { display: flex; height: 88px; align-items: center; gap: 8px; margin-top: 8px; }
 .client-logos img { width: 88px; height: 88px; object-fit: contain; }
-.certifications { display: grid; grid-template-columns: 1fr; width: min(100%, 430px); gap: 4px; margin-top: 28px; padding: 14px; border-radius: 14px; background: rgba(70,183,232,.08); }
+.certifications { position: relative; display: grid; grid-template-columns: 1fr; width: min(100%, 430px); gap: 4px; margin-top: 28px; padding: 14px 14px 14px 18px; border: 1px solid rgba(0,89,139,.12); border-radius: 14px; background: rgba(70,183,232,.08); }
+.certifications::before { content: ""; position: absolute; left: -1px; top: 16px; bottom: 16px; width: 4px; border-radius: 0 4px 4px 0; background: var(--blue-mid); }
 .certifications > strong { font-size: var(--text-sm); line-height: 20px; }
 .certifications > .certification-lead { margin: 0 0 4px; white-space: nowrap; }
 .certifications > div { display: flex; align-items: center; gap: 8px; min-height: 38px; padding: 6px 4px; color: var(--ink); font-size: var(--text-sm); font-weight: 600; }
