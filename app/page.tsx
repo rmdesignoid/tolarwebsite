@@ -42,6 +42,7 @@ type ContactField = "nome" | "email" | "empresa" | "telefone";
 type ContactErrors = Partial<Record<ContactField, string>>;
 const MAX_INVALID_ATTEMPTS = 5;
 const FORM_LOCK_DURATION = 5 * 60 * 1000;
+const CONTACT_ENDPOINT = process.env.NEXT_PUBLIC_CONTACT_ENDPOINT;
 
 function validateContactForm(data: FormData): ContactErrors {
   const name = String(data.get("nome") ?? "").trim();
@@ -120,7 +121,7 @@ export default function Home() {
     setFormErrors((current) => ({ ...current, [field]: errors[field] }));
   }
 
-  function handleContactSubmit(event: React.FormEvent<HTMLFormElement>) {
+  async function handleContactSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const form = event.currentTarget;
     if (isBlocked) {
@@ -147,12 +148,34 @@ export default function Home() {
       return;
     }
 
-    setFormSecurityMessage("");
-    setInvalidAttempts(0);
-    sessionStorage.removeItem("tolar-contact-form-lock");
-    setFormSuccessMessage("Mensagem enviada com sucesso. Nossa equipe entrará em contato em breve.");
-    form.reset();
-    formOpenedAt.current = Date.now();
+    if (!CONTACT_ENDPOINT) {
+      setFormSecurityMessage("O envio de mensagens será ativado na hospedagem final da Tolar.");
+      return;
+    }
+
+    try {
+      const response = await fetch(CONTACT_ENDPOINT, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          nome: String(formData.get("nome") ?? "").trim(),
+          email: String(formData.get("email") ?? "").trim(),
+          empresa: String(formData.get("empresa") ?? "").trim(),
+          telefone: String(formData.get("telefone") ?? "").trim(),
+        }),
+      });
+
+      if (!response.ok) throw new Error("contact-send-failed");
+
+      setFormSecurityMessage("");
+      setInvalidAttempts(0);
+      sessionStorage.removeItem("tolar-contact-form-lock");
+      setFormSuccessMessage("Mensagem enviada com sucesso. Nossa equipe entrará em contato em breve.");
+      form.reset();
+      formOpenedAt.current = Date.now();
+    } catch {
+      setFormSecurityMessage("Não foi possível enviar sua mensagem agora. Tente novamente em instantes.");
+    }
   }
 
   useEffect(() => {
