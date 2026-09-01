@@ -45,6 +45,7 @@
 @media (prefers-reduced-motion: reduce) {
   .js-motion [data-reveal] { opacity: 1; transform: none; transition: none; }
   .strategy-art img { animation: none; }
+  .atmcentre-section { transform: none; }
 }
 * { box-sizing: border-box; }
 html { overflow-x: clip; scroll-behavior: smooth; }
@@ -109,7 +110,7 @@ img { display: block; max-width: 100%; }
 .spin-off p { margin: 0; font-size: var(--text-xs); line-height: 16px; }
 .eyebrow.dark { color: var(--blue); }
 h2 { margin: 0; font-size: clamp(var(--text-4xl), 4vw, var(--text-5xl)); line-height: 1; letter-spacing: -1.5px; font-weight: 600; }
-.atmcentre-section { position: relative; z-index: 3; margin-top: -96px; padding: 96px 0 112px; border-radius: 64px 64px 0 0; background: #fff; }
+.atmcentre-section { position: relative; z-index: 3; margin-top: -96px; padding: 96px 0 112px; border-radius: 64px 64px 0 0; background: #fff; transform: translate3d(0, var(--atmcentre-parallax, 0px), 0); will-change: transform; }
 .atmcentre-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 80px; align-items: center; }
 .atmcentre-copy { order: 2; max-width: 540px; }
 .atmcentre-copy h2 { margin: 4px 0 16px; }
@@ -306,7 +307,7 @@ footer { padding: 72px 0 28px; color: #fff; background: var(--navy-deep); }
   .hero { min-height: 780px; } .hero-image { left: 28%; right: -42%; opacity: .58; }
   .hero-shade { background: linear-gradient(90deg, var(--ink) 0%, rgba(17,25,44,.95) 45%, rgba(17,25,44,.3) 100%); }
   .hero-content { padding-top: 90px; }
-  .atmcentre-section { margin-top: 0; padding: 76px 0; border-radius: 40px 40px 0 0; }.atmcentre-grid { grid-template-columns: 1fr; gap: 48px; }.atmcentre-copy { order: initial; max-width: 680px; }
+  .atmcentre-section { margin-top: 0; padding: 76px 0; border-radius: 40px 40px 0 0; transform: none; }.atmcentre-grid { grid-template-columns: 1fr; gap: 48px; }.atmcentre-copy { order: initial; max-width: 680px; }
   .experience-grid, .strategy-grid, .modules-grid { grid-template-columns: 1fr; gap: 56px; }
   .experience-copy { max-width: 680px; }.experience-visual { width: min(520px, 100%); justify-self: center; }
   .strategy-art { display: block; width: min(560px, 100%); height: auto; aspect-ratio: 1202 / 1298; justify-self: center; }.strategy-section { min-height: auto; padding: 48px 0 88px; }

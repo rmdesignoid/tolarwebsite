@@ -174,12 +174,14 @@ export default function Home() {
     const onScroll = () => {
       setScrolled(window.scrollY > 24);
       document.documentElement.style.setProperty("--experience-parallax", `${Math.min(Math.max(window.scrollY - 120, 0), 360)}px`);
+      document.documentElement.style.setProperty("--atmcentre-parallax", `${Math.min(Math.max(window.scrollY - 280, 0), 480) * 0.08}px`);
     };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => {
       window.removeEventListener("scroll", onScroll);
       document.documentElement.style.removeProperty("--experience-parallax");
+      document.documentElement.style.removeProperty("--atmcentre-parallax");
     };
   }, []);
 
