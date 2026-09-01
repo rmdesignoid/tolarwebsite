@@ -31,6 +31,13 @@ const scaleStats = [
   { icon: Clock3, value: "+10.000", label: "Terminais usando a solução" },
 ];
 
+const navigationItems = [
+  { id: "atmcentre", label: "ATMCentre" },
+  { id: "plataforma", label: "Plataforma" },
+  { id: "modulos", label: "Módulos" },
+  { id: "contato", label: "Contato" },
+] as const;
+
 type ContactField = "nome" | "email" | "empresa" | "telefone";
 type ContactErrors = Partial<Record<ContactField, string>>;
 const MAX_INVALID_ATTEMPTS = 5;
@@ -53,6 +60,7 @@ function validateContactForm(data: FormData): ContactErrors {
 
 export default function Home() {
   const [scrolled, setScrolled] = useState(false);
+  const [activeSection, setActiveSection] = useState<string | null>(null);
   const [formErrors, setFormErrors] = useState<ContactErrors>({});
   const [formSecurityMessage, setFormSecurityMessage] = useState("");
   const [formSuccessMessage, setFormSuccessMessage] = useState("");
@@ -63,6 +71,31 @@ export default function Home() {
 
   useEffect(() => {
     formOpenedAt.current = Date.now();
+  }, []);
+
+  useEffect(() => {
+    const updateActiveSection = () => {
+      const viewportOffset = 144;
+      const visibleSection = navigationItems.reduce<string | null>((current, item) => {
+        const section = document.getElementById(item.id);
+        return section && section.getBoundingClientRect().top <= viewportOffset ? item.id : current;
+      }, null);
+      setActiveSection(visibleSection);
+    };
+
+    const updateFromHash = () => {
+      const hashSection = window.location.hash.slice(1);
+      if (navigationItems.some((item) => item.id === hashSection)) setActiveSection(hashSection);
+      else updateActiveSection();
+    };
+
+    updateFromHash();
+    window.addEventListener("scroll", updateActiveSection, { passive: true });
+    window.addEventListener("hashchange", updateFromHash);
+    return () => {
+      window.removeEventListener("scroll", updateActiveSection);
+      window.removeEventListener("hashchange", updateFromHash);
+    };
   }, []);
 
   function registerInvalidAttempt() {
@@ -185,7 +218,7 @@ export default function Home() {
         <div className="header-slot"><header className={`site-header${scrolled ? " is-scrolled" : ""}`}>
           <a className="brand" href="#inicio" aria-label="Tolar — início"><img src="/assets/tolar-logo.svg" alt="Tolar" /></a>
           <nav className="desktop-nav" aria-label="Navegação principal">
-            <a className="active" href="#atmcentre">ATMCentre</a><a href="#plataforma">Plataforma</a><a href="#modulos">Módulos</a><a href="#contato">Contato</a>
+            {navigationItems.map((item) => <a key={item.id} className={activeSection === item.id ? "active" : undefined} href={`#${item.id}`} aria-current={activeSection === item.id ? "page" : undefined} onClick={() => setActiveSection(item.id)}>{item.label}</a>)}
           </nav>
           <div className="header-actions"><LanguageToggle /><a className="button button-sm" href="#contato">Fale com um especialista <Arrow /></a></div>
         </header></div>
