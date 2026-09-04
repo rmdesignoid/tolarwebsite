@@ -162,6 +162,7 @@ export default function Home() {
           email: String(formData.get("email") ?? "").trim(),
           empresa: String(formData.get("empresa") ?? "").trim(),
           telefone: String(formData.get("telefone") ?? "").trim(),
+          website: honeypotValue,
         }),
       });
 
