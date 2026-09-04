@@ -1,5 +1,4 @@
 import http from "node:http";
-import nodemailer from "nodemailer";
 
 const PORT = Number(process.env.CONTACT_PORT ?? 3001);
 const MAX_BODY_BYTES = 10_000;
@@ -13,20 +12,30 @@ const required = (name) => {
   return value;
 };
 
-const transporter = nodemailer.createTransport({
-  host: required("SMTP_HOST"),
-  port: Number(required("SMTP_PORT")),
-  secure: false,
-  requireTLS: true,
-  auth: {
-    user: required("SMTP_USER"),
-    pass: required("SMTP_PASS"),
-  },
-  tls: { minVersion: "TLSv1.2" },
-  connectionTimeout: 10_000,
-  greetingTimeout: 10_000,
-  socketTimeout: 15_000,
-});
+async function sendWithResend(email, lead) {
+  const apiKey = required("RESEND_API_KEY");
+  const result = await fetch("https://api.resend.com/emails", {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${apiKey}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      from: required("MAIL_FROM"),
+      to: [required("MAIL_TO")],
+      reply_to: lead.email,
+      subject: email.subject,
+      text: email.text,
+      html: email.html,
+    }),
+    signal: AbortSignal.timeout(15_000),
+  });
+
+  if (!result.ok) {
+    const details = await result.text();
+    throw new Error(`Resend delivery failed (${result.status}): ${details.slice(0, 500)}`);
+  }
+}
 
 const escapeHtml = (value) => String(value).replace(/[&<>"']/g, (character) => ({
   "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;",
@@ -120,14 +129,7 @@ const server = http.createServer(async (request, response) => {
       return;
     }
     const email = contactEmail(lead);
-    await transporter.sendMail({
-      from: required("MAIL_FROM"),
-      to: required("MAIL_TO"),
-      replyTo: lead.email,
-      subject: email.subject,
-      text: email.text,
-      html: email.html,
-    });
+    await sendWithResend(email, lead);
     reply(response, 204);
   } catch (error) {
     if (error?.message === "payload-too-large") {
